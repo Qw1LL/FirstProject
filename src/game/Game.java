@@ -11,9 +11,6 @@ public class Game extends GameBoard {
     boolean criticalStop = false;
     Player player = new Player();
 
-//    public Game() throws IOException {
-//        Player player = new Player();
-//    }
 
     public static char getX() {
         return X;
@@ -157,13 +154,13 @@ public class Game extends GameBoard {
                             i++;
                         } else {
                             System.out.println("Эта клетка занята, введите другую.");
-                            break;
                         }
-//                    case 0:
-//                        criticalStop = true;
-//                        stop = true;
-//                        reader.close();
-//                        break;
+                        break;
+                    case 0:
+                        criticalStop = true;
+                        stop = true;
+                        reader.close();
+                        break;
                 }
 
                 for (int t = 0; t < 3; t++) {
@@ -176,7 +173,7 @@ public class Game extends GameBoard {
                             (arr[0][t].equals("[" + getX() + "]") & arr[1][t].equals("[" + getX() + "]") & arr[2][t].equals("[" + getX() + "]"))) {
 
                         stop = true;
-                        for (int z = 0;  z < arr.length; z++) {
+                        for (int z = 0; z < arr.length; z++) {
                             for (int j = 0; j < arr[z].length; j++) {
                                 arr[z][j] = ("[ ]");
                             }
@@ -184,19 +181,40 @@ public class Game extends GameBoard {
                     }
                 }
 
-                if (arr[0][0].equals("[" + getX() + "]") && arr[1][1].equals("[" + getX() + "]") && arr[2][2].equals("[" + getX() + "]")||
-                        arr[0][2].equals("[" + getX() + "]") && arr[1][1].equals("[" + getX() + "]") && arr[2][0].equals("[" + getX() + "]")){
+                if (arr[0][0].equals("[" + getX() + "]") && arr[1][1].equals("[" + getX() + "]") && arr[2][2].equals("[" + getX() + "]") ||
+                        arr[0][2].equals("[" + getX() + "]") && arr[1][1].equals("[" + getX() + "]") && arr[2][0].equals("[" + getX() + "]")) {
                     stop = true;
 
-                } else if ((arr[0][0].equals("[" + getO() + "]") && arr[1][1].equals("[" + getO() + "]") && arr[2][2].equals("[" + getO() + "]")||
-                        arr[0][2].equals("[" + getO() + "]") && arr[1][1].equals("[" + getO() + "]") && arr[2][0].equals("[" + getO() + "]")))
-                {
+                } else if ((arr[0][0].equals("[" + getO() + "]") && arr[1][1].equals("[" + getO() + "]") && arr[2][2].equals("[" + getO() + "]") ||
+                        arr[0][2].equals("[" + getO() + "]") && arr[1][1].equals("[" + getO() + "]") && arr[2][0].equals("[" + getO() + "]"))) {
                     stop = true;
-                    for (int z = 0;  z < arr.length; z++) {
+                    for (int z = 0; z < arr.length; z++) {
                         for (int j = 0; j < arr[z].length; j++) {
                             arr[z][j] = ("[ ]");
                         }
                     }
+                }
+                // Реализация ничьих
+                if (!arr[0][0].equals("[ ]") && !arr[0][1].equals("[ ]") && !arr[0][2].equals("[ ]")
+                        && !arr[1][0].equals("[ ]") && !arr[1][1].equals("[ ]") && !arr[1][2].equals("[ ]")
+                        && !arr[2][0].equals("[ ]") && !arr[2][1].equals("[ ]") && !arr[2][2].equals("[ ]")) {
+                    System.out.println("Ничья");
+                    stop = true;
+                    for (int z = 0; z < arr.length; z++) {
+                        for (int j = 0; j < arr[z].length; j++) {
+                            arr[z][j] = ("[ ]");
+                        }
+                    }
+                    System.out.println("Хотите сыграть еще раз? \n y - да; n - нет");
+                    String isExit = reader.readLine();
+                    if (isExit.equals("y") || isExit.equals("н")) {
+                        stop = false;
+                        startGame();
+                    } else if (isExit.equals("n") || isExit.equals("т")) {
+                        criticalStop = true;
+                        reader.close();
+                    } else System.out.println("чтобы выйти из игры нажмите 'n' ");
+
                 }
 
             } catch (NumberFormatException e) {
@@ -208,20 +226,30 @@ public class Game extends GameBoard {
             player.setName(reader.readLine());
             System.out.println(player.getName() + " одержал победу");
             try {
-                Thread.sleep(1500);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             System.out.println("Хотите сыграть еще раз? \n y - да; n - нет");
             String isExit = reader.readLine();
-            if (isExit.equals("y")) {
+            if (isExit.equals("y") || isExit.equals("н")) {
                 stop = false;
                 startGame();
-            } else if (isExit.equals("n")) {
+            } else if (isExit.equals("n") || isExit.equals("т")) {
                 criticalStop = true;
                 reader.close();
-            } else System.out.println("чтобы выйти из игры нажмите 'n' ");
-        }
+            } else {
+                while (true) {
+                    System.out.println("чтобы выйти из игры нажмите 'n' ");
+                    String isExit1 = reader.readLine();
+                    if ((isExit1.equals("n") || isExit1.equals("т"))) {
+                        criticalStop = true;
+                        break;
+                    }
 
+                }
+            }
+
+        }
     }
 }
