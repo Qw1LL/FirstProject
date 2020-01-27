@@ -39,6 +39,7 @@ public class Game extends GameBoard {
             } else {
                 System.out.println("Введите номер ячейки, чтобы поставить нолик!");
             }
+
             try {
                 int num = Integer.parseInt(reader.readLine());
                 switch (num) {
