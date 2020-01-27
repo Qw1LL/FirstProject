@@ -1,10 +1,7 @@
 package game;
 
-import java.io.IOException;
-
-public class Player{
-    private String  name;
-
+public class Player {
+    private String name;
 
     public String getName() {
         return name;
